@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlabSpace - Explore the Universe</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #111;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        header nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header nav a:hover {
+            color: #f39c12;
+        }
+
+        .hero {
+            text-align: center;
+            position: relative;
+            padding: 100px 20px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/5/58/Saturn_V_rocket.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .hero button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            background-color: #f39c12;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .hero button:hover {
+            background-color: #e67e22;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #111;
+            color: #aaa;
+            margin-top: 50px;
+        }
+
+        .form-container {
+            max-width: 500px;  /* Increased width */
+            width: 90%;  /* Makes it responsive, filling up to 90% of screen width if smaller */
+            margin: 100px auto;  /* Increased margin to center with more spacing */
+            padding: 40px;  /* Increased padding for a larger form */
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+        
+        .form-container h2 {
+            font-size: 2.5rem;  /* Larger heading size for better emphasis */
+            margin-bottom: 30px;
+        }
+        
+        .form-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 15px;
+            font-size: 1.1rem;  /* Slightly larger label text */
+        }
+        
+        .form-container input {
+            width: 100%;
+            padding: 15px;  /* Increased padding for better usability */
+            margin-bottom: 25px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #111;
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        .form-container button {
+            width: 100%;
+            padding: 15px;  /* Larger button size */
+            background-color: #f39c12;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;  /* Slightly larger font size for button */
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .form-container button:hover {
+            background-color: #e67e22;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>SlabSpace</h1>
+        <nav> 
+            <a href="/">Home</a>
+          {% if session["user_id"] %}
+            <a href="/mars">Mars</a>
+            <a href="/moon">Moon</a>
+            <a href="/logout">Log out</a>
+          {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>  
+          {% endif %}
+        </nav>
+    </header>
+    <section id="login" class="form-container">
+    <h2>Login</h2>
+    <form method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>  
+        <button type="submit">Login</button>
+    </form>
+</section>
+
+
+
+</body>
+
+</html>

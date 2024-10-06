@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seismostate</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(17, 17, 17, 0.9);
+            padding: 10px 15px; /* Reduced padding to move content slightly to the left */
+            display: flex;
+            justify-content: flex-start; /* Align header contents to the left */
+            align-items: center;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin-right: 30px; /* Add space between the title and navigation */
+            font-size: 1.5rem;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        header nav a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.5 rem;
+        }
+
+        header nav a:hover {
+            color: #f39c12;
+        }
+
+        .logout {
+            background-color: #f39c12;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            margin-left: 15px; /* Add space between the Logout button and the last link */
+        }
+
+        .logout:hover {
+            background-color: #e67e22;
+        }
+
+        .hero {
+            height: 90vh;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/5/58/Saturn_V_rocket.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+
+        .cta-button {
+            padding: 10px 25px;
+            font-size: 1rem;
+            background-color: #f39c12;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #e67e22;
+        }
+
+        .explore-section {
+            padding: 80px 20px;
+            background: #111;
+        }
+
+        .explore-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .planet-cards {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .planet-card {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .planet-card:hover {
+            transform: translateY(-10px);
+            background-color: #333;
+        }
+
+        .planet-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .planet-card h3 {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .about-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #222;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #f39c12;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #111;
+            color: #aaa;
+        }
+        
+       
+        .cards-container {
+          display: flex;
+          gap: 20px; /* Space between cards */
+          margin-top: 40px; /* Space between header and cards */
+          flex-wrap: wrap;
+      }
+
+      .card {
+          width: 300px;
+          height: 300px;
+          background-size: cover;
+            background-position: center;
+            color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: zoomIn 1.5s ease-in-out forwards; /* Apply zoom-in animation */
+        }
+
+        .card:hover {
+            transform: scale(1.2); /* Scale up on hover */
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .mars-card {
+            background-image: url(/static/pixlr-image-generator-291103ab-1d5c-467c-9cca-898b97f3fc74.png);
+        }
+
+        .moon-card {
+            background-image: url(/static/1079059.jpg);
+        }
+
+        .card-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .card-content h3 {
+            font-size: 1.5rem;
+            margin: 5px 0;
+        }
+
+        .card-content p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .missions-label {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .card-footer {
+            background-color: #005b99;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .card-footer:hover {
+            background-color: #004377;
+        }
+
+        .arrow {
+            margin-left: 10px;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .main{
+          margin-left: 50px;
+          margin-right: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header">
+        <h1>SeismoState</h1>
+        <nav>
+          {% if session["user_id"] %} 
+          <a href="/">Home</a>
+          <a href="/mars">Mars</a>
+          <a href="/moon">Moon</a>
+          <a href="/logout">Log out</a>
+        {% else %}
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>  
+        {% endif %}
+        </nav>
+    </header>
+    <div class="main">
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-text">
+            <h2>Seismic Detection Across the Solar System</h2>
+            <p>Exploring the mysteries beneath the Martian surface, the Mars Seismic Detector mission aims to detect and analyze marsquakes. By monitoring seismic activity, this mission provides insights into the internal structure and tectonic activity of Mars.</p>
+            <button class="cta-button" onclick="smoothScroll('explore')">Start Your Journey</button>
+        </div>
+    </section>
+    </div>
+    <!-- Mars Mission Card -->
+
+  <!-- Cards Container for Missions -->
+  <section id="explore" class="explore-section">
+    <h2>Discover the Cosmos</h2>
+  
+  <div class="cards-container">
+    <!-- Mars Mission Card -->
+    <div class="card mars-card" style="margin-left: 340px;">
+        <div class="card-content">
+            <div class="missions-label">Missions</div>
+            <h3>Mars Seismic Detector <span title="More Info"></span></h3>
+            <p>Exploring the mysteries beneath the Martian surface, the Mars Seismic Detector mission aims to detect and analyze marsquakes. Understanding these signals helps reveal the Red Planet's geological history.</p>
+        </div>
+        <a href="#" class="card-footer" onclick="openModal('marsModal')">
+            Learn more <span class="arrow">→</span>
+        </a>
+    </div>
+
+    <!-- Moon Mission Card -->
+    <div class="card moon-card" style="margin-left: 60px">
+        <div class="card-content">
+            <div class="missions-label">Missions</div>
+            <h3>Moon Seismic Survey</h3>
+            <p>The Moon Seismic Survey mission is focused on studying the seismic activity of the Moon to understand its tectonic processes. This data helps us explore the Moon's interior and its evolution over billions of years.</p>
+        </div>
+        <a href="#" class="card-footer" onclick="openModal('moonModal')">
+            Learn more <span class="arrow">→</span>
+        </a>
+    </div>
+</div>
+</section>
+
+<div id="marsModal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="closeModal('marsModal')">&times;</span>
+      <h2>Mars Seismic Detector</h2>
+      <p>Mars experiences seismic activity, or "marsquakes," primarily due to three causes: internal cooling and contraction of the planet's crust, tectonic fractures, and meteorite impacts. Unlike Earth, Mars lacks active tectonic plates, so its quakes result from the gradual release of internal heat and surface stresses.
+
+        NASA's InSight mission has detected thousands of marsquakes using its SEIS instrument. These quakes vary in size and depth, providing valuable data about Mars’ interior, such as the thickness of its crust and properties of the mantle and core. Studying Mars' seismic activity offers insights into the planet’s geologic evolution and the processes shaping rocky planets.</p>
+  </div>
+</div>
+
+<div id="moonModal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="closeModal('moonModal')">&times;</span>
+      <h2>Moon Seismic Survey</h2>
+      <p>The Moon experiences seismic activity known as "moonquakes," which differ from Earth's earthquakes in both cause and intensity. There are four types of moonquakes: deep, shallow, thermal, and those caused by meteorite impacts.
+
+        Deep moonquakes are caused by tidal forces exerted by Earth's gravity and occur hundreds of kilometers below the surface.
+        Shallow moonquakes are the most powerful and can last up to 10 minutes, but their exact cause is unclear, potentially linked to the Moon's cooling and contraction.
+        Thermal moonquakes happen when the Moon's surface expands as it heats up during lunar day and contracts when it cools at night.
+        Impact moonquakes result from meteorites striking the lunar surface.
+        NASA's Apollo missions in the 1970s deployed seismometers that recorded these moonquakes. While less frequent and intense than earthquakes, moonquakes provide key insights into the Moon’s interior structure, such as its crust, mantle, and core composition. Understanding seismic activity on the Moon is crucial for future lunar exploration and potential habitation, as it helps assess surface stability and geologic activity.</p>
+  </div>
+</div>
+
+<script>
+  // Function to open the modal
+  function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+  }
+
+  // Function to close the modal
+  function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+  }
+
+  // Close modal when clicking outside of it
+  window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      });
+  }
+</script>
+
+
+    <div class="main">
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2>About seismic problems</h2>
+        <p>Transmitting seismic data from Mars is power-intensive, and much of the data is not scientifically useful. Most of the time, only a small fraction of this data contains valuable signals. By processing the data directly on the lander to filter out noise, we can prioritize sending only meaningful information. This saves power, reduces data transmission needs, and makes it easier for researchers to access the important seismic data they need for planetary exploration.</p>
+    </section>
+  </div>
+
+    <!-- Modal Pop-ups -->
+    <div id="marsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('marsModal')">&times;</span>
+            <h2>Mars Exploration</h2>
+            <p>Mars experiences seismic activity, or "marsquakes," primarily due to three causes: internal cooling and contraction of the planet's crust, tectonic fractures, and meteorite impacts. Unlike Earth, Mars lacks active tectonic plates, so its quakes result from the gradual release of internal heat and surface stresses.
+
+              NASA's InSight mission has detected thousands of marsquakes using its SEIS instrument. These quakes vary in size and depth, providing valuable data about Mars’ interior, such as the thickness of its crust and properties of the mantle and core. Studying Mars' seismic activity offers insights into the planet’s geologic evolution and the processes shaping rocky planets.</p>
+        </div>
+    </div>
+
+    <div id="moonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('moonModal')">&times;</span>
+            <h2>Moon Exploration</h2>
+            <p>The Moon experiences seismic activity known as "moonquakes," which differ from Earth's earthquakes in both cause and intensity. There are four types of moonquakes: deep, shallow, thermal, and those caused by meteorite impacts.
+
+              Deep moonquakes are caused by tidal forces exerted by Earth's gravity and occur hundreds of kilometers below the surface.
+              Shallow moonquakes are the most powerful and can last up to 10 minutes, but their exact cause is unclear, potentially linked to the Moon's cooling and contraction.
+              Thermal moonquakes happen when the Moon's surface expands as it heats up during lunar day and contracts when it cools at night.
+              Impact moonquakes result from meteorites striking the lunar surface.
+              NASA's Apollo missions in the 1970s deployed seismometers that recorded these moonquakes. While less frequent and intense than earthquakes, moonquakes provide key insights into the Moon’s interior structure, such as its crust, mantle, and core composition. Understanding seismic activity on the Moon is crucial for future lunar exploration and potential habitation, as it helps assess surface stability and geologic activity.</p>
+        </div>
+    </div>
+
+
+    <script>
+        // Smooth Scrolling Function
+        function smoothScroll(targetId) {
+            const targetElement = document.getElementById(targetId);
+            window.scrollTo({
+                top: targetElement.offsetTop - 70,
+                behavior: 'smooth'
+            });
+        }
+
+        // Open Modal
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = "block";
+        }
+
+        // Close Modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = "none";
+        }
+
+        // Close Modal when clicking outside of it
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+    </script>
+  </div>
+</body>
+
+</html>
